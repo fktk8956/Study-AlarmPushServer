@@ -40,7 +40,6 @@
         - 신규 db 컬럼이 추가되었을때, DB서버에 직접 insert해주는 등 고민해보기
     - local로 구현이 완료되면 aws에 올릴 수 있는 방법 공부하기
         - local의 DB를 aws에 마이그레이션도 고려해야함
-        - 이건 이직 준비를 제대로 시작할 떄까지 아껴둘까,,,?
     - 추후에는 슬랙 외의 메시지 push 시스템도 연동해보자
 - Reference
     - [Slack 알림 구현 참고](https://develop-writing.tistory.com/142)
