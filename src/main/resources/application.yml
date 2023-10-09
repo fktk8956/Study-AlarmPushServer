@@ -1,0 +1,20 @@
+spring:
+  # Postgres Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/studyalarmpush
+    username: dong
+    password: dong
+    driver-class-name: org.postgresql.Driver
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+server:
+  port: 8081
+
+########################################################################################################################
