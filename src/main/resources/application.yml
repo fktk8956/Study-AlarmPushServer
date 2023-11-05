@@ -18,3 +18,8 @@ server:
   port: 8081
 
 ########################################################################################################################
+
+#url git 커밋 잘 숨기기
+webhook:
+  slack:
+    url: https://hooks.slack.com/services/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

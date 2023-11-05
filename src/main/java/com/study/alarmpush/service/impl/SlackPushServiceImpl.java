@@ -6,6 +6,7 @@ import com.study.alarmpush.model.*;
 import com.study.alarmpush.repository.AlarmRepository;
 import com.study.alarmpush.service.PushService;
 import com.study.alarmpush.service.UserManagerService;
+import com.study.alarmpush.util.SlackMessengerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class SlackPushServiceImpl implements PushService {
 
     @Autowired
     private AlarmRepository alarmRepository;
+
+    @Autowired
+    private SlackMessengerUtil messengerUtil;
 
     @Override
     @Transactional
