@@ -1,10 +1,7 @@
 package com.study.alarmpush.controller;
 
 import com.study.alarmpush.common.ResourceNotFoundException;
-import com.study.alarmpush.model.AddUserRequestVO;
-import com.study.alarmpush.model.CreateAlarmRequestVO;
-import com.study.alarmpush.model.LoginUserRequestVO;
-import com.study.alarmpush.model.UpdateAlarmRequestVO;
+import com.study.alarmpush.model.*;
 import com.study.alarmpush.service.UserManagerService;
 import com.study.alarmpush.service.impl.SlackPushServiceImpl;
 import jakarta.validation.Valid;
@@ -44,5 +41,15 @@ public class AlarmPushController {
     @PostMapping("/pms/update/{id}")
     public ResponseEntity<?> updatePushMessageById(@PathVariable Long id, @Valid @RequestBody UpdateAlarmRequestVO updateAlarmRequestVO) throws ResourceNotFoundException {
         return slackPushService.updatePushMessage(id, updateAlarmRequestVO);
+    }
+
+    @DeleteMapping("/pms/delete/{id}")
+    public ResponseEntity<?> deletePushMessageById(@PathVariable Long id) {
+        return slackPushService.deletePushMessage(id);
+    }
+
+    @DeleteMapping("/pms/delete")
+    public ResponseEntity<?> deleteAllPushMessages(@Valid @RequestBody DeleteAllAlarmsRequestVO requestVO) throws ResourceNotFoundException {
+        return slackPushService.deleteAllPushMessages(requestVO);
     }
 }

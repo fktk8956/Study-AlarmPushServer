@@ -1,6 +1,7 @@
 package com.study.alarmpush.service;
 
 import com.study.alarmpush.common.ResourceNotFoundException;
+import com.study.alarmpush.common.ResultEnum;
 import com.study.alarmpush.model.*;
 import com.study.alarmpush.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +50,10 @@ public class UserManagerService {
             Optional<User> userOptional = Optional.ofNullable(userRepository.findByLoginEmailAndLoginPassword(reqUser.getEmail(), reqUser.getPassword())
                     .orElseThrow(() -> new ResourceNotFoundException(reqUser.getEmail() + " is not founded")));
 
-            ret.put("result", "SUCCESS");
+            ret.put("result", ResultEnum.SUCCESS.getResultString());
             ret.put("nickName", userOptional.get().getNickName());
             ret.put("token", "test");
-            return new ResponseEntity(ret, HttpStatus.OK);
+            return new ResponseEntity<>(ret, HttpStatus.OK);
         } catch (ResourceNotFoundException re) {
             log.error(re.getMessage());
             throw re;
@@ -67,17 +68,21 @@ public class UserManagerService {
             if(userOptional.isPresent()) {
                 List<Alarm> alarmList = userOptional.get().getAlarms();
                 List<FindAlarmDTO> findAlarmDTOList = new ArrayList<>();
-                alarmList.forEach(alarm -> {
-                    findAlarmDTOList.add(FindAlarmDTO.builder()
-                            .id(alarm.getId())
-                            .message(alarm.getMessage())
-                            .createDate(alarm.getCreateDate().toString())
-                            .build());
-                });
-                ret.put("result", "SUCCESS");
-                ret.put("data", new Gson().toJson(findAlarmDTOList));
+                if(alarmList.isEmpty()) {
+                    ret.put("data", ResultEnum.EMPTY_RESULT.getResultString());
+                } else {
+                    alarmList.forEach(alarm -> {
+                        findAlarmDTOList.add(FindAlarmDTO.builder()
+                                .id(alarm.getId())
+                                .message(alarm.getMessage())
+                                .createDate(alarm.getCreateDate().toString())
+                                .build());
+                    });
+                    ret.put("result", ResultEnum.SUCCESS.getResultString());
+                    ret.put("data", new Gson().toJson(findAlarmDTOList));
+                }
             } else {
-                ret.put("result", "FAIL");
+                ret.put("result", ResultEnum.FAIL.getResultString());
                 ret.put("data", "");
             }
             return new ResponseEntity<>(ret, HttpStatus.OK);
@@ -89,9 +94,8 @@ public class UserManagerService {
 
     public Optional<User> findUserByEmail(final String email) throws ResourceNotFoundException {
         try {
-            Optional<User> userOptional = Optional.ofNullable(userRepository.findByLoginEmail(email)
+            return Optional.ofNullable(userRepository.findByLoginEmail(email)
                     .orElseThrow(() -> new ResourceNotFoundException(email + " is not founded")));
-            return userOptional;
         } catch (ResourceNotFoundException re) {
             log.error(re.getMessage());
             throw re;
