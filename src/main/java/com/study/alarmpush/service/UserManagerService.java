@@ -23,7 +23,7 @@ public class UserManagerService {
     public ResponseEntity<?> registerUser(AddUserRequestVO reqUser) {
         try {
             if (userRepository.findByLoginEmail(reqUser.getEmail()).isPresent()) {
-                return new ResponseEntity("email is already registered", HttpStatus.CONFLICT);
+                return new ResponseEntity<>("email is already registered", HttpStatus.CONFLICT);
             }
 
             User addUser = User.builder()
